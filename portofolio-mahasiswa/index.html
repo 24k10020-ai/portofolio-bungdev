@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bung Dev - Senior Frontend Developer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF0B55',
+                            darkOrange: '#D90445',
+                            bg: '#08080C',
+                            card: '#12131C',
+                            cardHover: '#1A1B28',
+                            border: '#1F2130',
+                            input: '#161723'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        code: ['Fira Code', 'monospace'],
+                        signature: ['Caveat', 'cursive']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 25px -5px rgba(255, 11, 85, 0.4)',
+                        'glow-lg': '0 0 40px -5px rgba(255, 11, 85, 0.6)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #08080C;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2130;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF0B55;
+        }
+
+        .glass-panel {
+            background: rgba(18, 19, 28, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cursor-blink::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #FF0B55;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-200 font-sans antialiased selection:bg-brand-orange selection:text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full glass-panel transition-all duration-300">
+        <div class="w-full px-6 sm:px-10 md:px-16 xl:px-24 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg bg-brand-orange flex items-center justify-center text-white font-extrabold text-xl shadow-glow group-hover:scale-105 transition-transform">
+                    B
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white group-hover:text-brand-orange transition-colors">
+                    BUNG <span class="text-brand-orange">DEV</span>
+                </span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
+                <a href="#home" class="text-brand-orange transition-colors">HOME</a>
+                <a href="#about" class="text-gray-300 hover:text-brand-orange transition-colors">ABOUT</a>
+                <a href="#services" class="text-gray-300 hover:text-brand-orange transition-colors">SERVICES</a>
+                <a href="#skills" class="text-gray-300 hover:text-brand-orange transition-colors">SKILLS</a>
+                <a href="#projects" class="text-gray-300 hover:text-brand-orange transition-colors">PROJECTS</a>
+                <a href="#contact" class="text-gray-300 hover:text-brand-orange transition-colors">CONTACT</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 border border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 shadow-glow hover:shadow-glow-lg">
+                    LET'S TALK <i class="fa-solid fa-paper-plane text-xs"></i>
+                </a>
+
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-orange focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-brand-border px-6 py-6 transition-all duration-300">
+            <nav class="flex flex-col gap-4 text-base font-semibold">
+                <a href="#home" class="mobile-link text-brand-orange">HOME</a>
+                <a href="#about" class="mobile-link text-gray-300 hover:text-brand-orange">ABOUT</a>
+                <a href="#services" class="mobile-link text-gray-300 hover:text-brand-orange">SERVICES</a>
+                <a href="#skills" class="mobile-link text-gray-300 hover:text-brand-orange">SKILLS</a>
+                <a href="#projects" class="mobile-link text-gray-300 hover:text-brand-orange">PROJECTS</a>
+                <a href="#contact" class="mobile-link text-gray-300 hover:text-brand-orange">CONTACT</a>
+                <a href="#contact" class="mobile-link inline-flex justify-center items-center gap-2 bg-brand-orange text-white py-3 rounded-lg font-semibold mt-2">
+                    LET'S TALK <i class="fa-solid fa-paper-plane text-xs"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full">
+        <!-- HERO SECTION -->
+        <section id="home" class="relative py-12 lg:py-20 w-full px-6 sm:px-10 md:px-16 xl:px-24 overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#FF0B55_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10 w-full">
+                
+                <!-- Hero Left Column -->
+                <div class="lg:col-span-7 flex flex-col gap-6">
+                    
+                    <!-- 1. Greeting Badge -->
+                    <div class="inline-flex items-center gap-2 text-gray-300 font-medium text-base">
+                        <span class="text-2xl animate-bounce">👋</span> Hello, Gue
+                    </div>
+
+                    <!-- 2. Name Heading -->
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-white leading-tight">
+                        BUNG <span class="text-brand-orange">DEV</span>
+                    </h1>
+
+                    <!-- 3. Typing Subtitle -->
+                    <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-300 flex items-center gap-2">
+                        <span id="typing-text" class="cursor-blink text-brand-orange uppercase">FRONTEND DEVELOPER</span>
+                    </div>
+
+                    <!-- 4. Description -->
+                    <p class="text-gray-400 text-base sm:text-lg leading-relaxed">
+                        I build fast, responsive, and accessible web experiences with clean code and a passion for pixel perfection.
+                    </p>
+
+                    <!-- 5. CTA Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#projects" class="bg-brand-orange hover:bg-brand-darkOrange text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition-all duration-300 shadow-glow hover:shadow-glow-lg text-base">
+                            Lihat Kerja Gue <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <button onclick="downloadResume()" class="border border-brand-border bg-brand-card hover:bg-brand-border text-gray-200 px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition-all duration-300 text-base">
+                            Download CV Gue <i class="fa-solid fa-download text-sm text-brand-orange"></i>
+                        </button>
+                    </div>
+
+                    <!-- 6. FIND ME ON & developer.js (Bersandingan di Bawah) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center pt-4">
+                        
+                        <!-- FIND ME ON -->
+                        <div class="sm:col-span-5 flex flex-col gap-3">
+                            <span class="text-xs uppercase tracking-wider text-gray-500 font-semibold">FIND ME ON</span>
+                            <div class="flex items-center gap-3">
+                                <a href="https://github.com" target="_blank" class="w-10 h-10 rounded-lg bg-brand-card border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                                    <i class="fa-brands fa-github text-lg"></i>
+                                </a>
+                                <a href="https://linkedin.com" target="_blank" class="w-10 h-10 rounded-lg bg-brand-card border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                                    <i class="fa-brands fa-linkedin-in text-lg"></i>
+                                </a>
+                                <a href="https://wa.me/6281234567890?text=Halo%20Bung%20Dev,%20saya%20ingin%20bertanya" target="_blank" class="w-10 h-10 rounded-lg bg-brand-card border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                                </a>
+                                <a href="https://instagram.com" target="_blank" class="w-10 h-10 rounded-lg bg-brand-card border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-brand-orange transition-all">
+                                    <i class="fa-brands fa-instagram text-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- developer.js Snippet Card -->
+                        <div class="sm:col-span-7 bg-brand-card border border-brand-border rounded-xl p-3.5 font-code text-xs text-gray-300 shadow-xl">
+                            <div class="flex items-center gap-2 mb-2 border-b border-brand-border/60 pb-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+                                <span class="ml-2 text-[10px] text-gray-400">developer.js</span>
+                            </div>
+                            <pre class="overflow-x-auto text-gray-300"><code><span class="text-purple-400">const</span> <span class="text-blue-400">developer</span> = {
+  <span class="text-pink-400">name</span>: <span class="text-emerald-400">'Bung Dev'</span>,
+  <span class="text-pink-400">role</span>: <span class="text-emerald-400">'Frontend Developer'</span>,
+  <span class="text-pink-400">skills</span>: [<span class="text-emerald-400">'React'</span>, <span class="text-emerald-400">'Next.js'</span>, <span class="text-emerald-400">'TS'</span>]
+};</code></pre>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Hero Right Column (Foto Hero) -->
+                <div class="lg:col-span-5 flex justify-center items-center relative w-full">
+                    <div class="relative w-full">
+                        <div class="absolute -inset-2 bg-brand-orange rounded-3xl blur-xl opacity-30 transform rotate-1"></div>
+                        
+                        <div class="relative bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-2xl group cursor-pointer w-full">
+                            <img 
+                                src="bung.png" 
+                                alt="Bung Dev - Senior Frontend Developer" 
+                                class="w-full h-[450px] sm:h-[520px] lg:h-[580px] object-cover object-center transition-all duration-500 ease-in-out group-hover:brightness-75"
+                            />
+
+                            <div class="absolute bottom-6 right-6 bg-brand-card/95 backdrop-blur border border-brand-orange/50 rounded-xl p-4 sm:p-5 shadow-glow flex items-center gap-4">
+                                <div class="text-3xl sm:text-4xl font-black text-brand-orange">5+</div>
+                                <div class="text-xs sm:text-sm uppercase font-bold text-gray-300 tracking-wider leading-tight">
+                                    YEARS OF<br>EXPERIENCE <span class="text-brand-orange font-code">&lt;/&gt;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section id="about" class="py-20 bg-brand-card/30 border-y border-brand-border/60 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-6 flex flex-col gap-6">
+                        <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">ABOUT ME</span>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                            I'm a developer who loves crafting digital experiences.
+                        </h2>
+                        <p class="text-gray-400 text-base sm:text-lg leading-relaxed">
+                            I specialize in building modern, performant, and scalable web applications. With a strong eye for design and a love for clean code, I turn ideas into impactful products that users love to interact with.
+                        </p>
+                        <div class="pt-2">
+                            <span class="font-signature text-4xl lg:text-5xl text-brand-orange">Bung Dev</span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Name</span>
+                                <span class="text-white font-semibold text-base">Junius Tipagau</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Experience</span>
+                                <span class="text-white font-semibold text-base">5+ Years</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class="truncate">
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Email</span>
+                                <span class="text-white font-semibold text-base truncate block">hello@bungdev.com</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Location</span>
+                                <span class="text-white font-semibold text-base">Timika, Indonesia</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Availability</span>
+                                <span class="text-emerald-400 font-semibold text-base">Open to Work</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-card border border-brand-border p-6 rounded-xl flex items-center gap-4 hover:border-brand-orange/50 transition-all">
+                            <div class="w-12 h-12 rounded-lg bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-xl">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 font-medium uppercase block">Freelance</span>
+                                <span class="text-white font-semibold text-base">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="services" class="py-20 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="text-center mb-16">
+                <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">WHAT I DO</span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2">Services I Offer</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-brand-card border border-brand-border p-8 rounded-2xl hover:border-brand-orange hover:shadow-glow transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-2xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Frontend Development</h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Building responsive, high-performance websites and applications using modern technologies.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border p-8 rounded-2xl hover:border-brand-orange hover:shadow-glow transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-2xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">UI/UX Implementation</h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Converting Figma/Adobe XD designs into pixel-perfect, accessible and interactive interfaces.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border p-8 rounded-2xl hover:border-brand-orange hover:shadow-glow transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-2xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Performance Optimization</h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Improving website performance, Core Web Vitals and SEO for better user experience.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border p-8 rounded-2xl hover:border-brand-orange hover:shadow-glow transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-2xl mb-6 group-hover:scale-110 group-hover:bg-brand-orange group-hover:text-white transition-all">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Web Application</h3>
+                        <p class="text-gray-400 text-sm sm:text-base leading-relaxed">
+                            Developing scalable and maintainable web apps with modern frameworks like React and Next.js.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECH STACK SECTION -->
+        <section id="skills" class="py-16 bg-brand-card/20 border-y border-brand-border/60 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="w-full">
+                <div class="text-center mb-12">
+                    <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">TECH STACK</span>
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white mt-1">Technologies I Master</h2>
+                </div>
+
+                <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-5 text-center">
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-html5 text-4xl text-orange-500"></i>
+                        <span class="text-xs font-semibold text-gray-300">HTML5</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-css3-alt text-4xl text-blue-500"></i>
+                        <span class="text-xs font-semibold text-gray-300">CSS3</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-js text-4xl text-yellow-400"></i>
+                        <span class="text-xs font-semibold text-gray-300">JavaScript</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <span class="text-3xl font-bold text-blue-400 font-code">TS</span>
+                        <span class="text-xs font-semibold text-gray-300">TypeScript</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-react text-4xl text-cyan-400"></i>
+                        <span class="text-xs font-semibold text-gray-300">React</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <span class="text-3xl font-bold text-white font-code">N</span>
+                        <span class="text-xs font-semibold text-gray-300">Next.js</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-solid fa-wind text-4xl text-sky-400"></i>
+                        <span class="text-xs font-semibold text-gray-300">Tailwind CSS</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-git-alt text-4xl text-orange-600"></i>
+                        <span class="text-xs font-semibold text-gray-300">Git</span>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border p-5 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-brand-orange hover:-translate-y-1 transition-all">
+                        <i class="fa-brands fa-github text-4xl text-white"></i>
+                        <span class="text-xs font-semibold text-gray-300">GitHub</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED PROJECTS SECTION -->
+        <section id="projects" class="py-20 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">FEATURED PROJECTS</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2">Selected Work</h2>
+                </div>
+
+                <div class="flex items-center gap-2 flex-wrap" id="project-filters">
+                    <button class="filter-btn active bg-brand-orange text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-all" data-filter="all">All</button>
+                    <button class="filter-btn bg-brand-card border border-brand-border text-gray-400 hover:text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-all" data-filter="react">React</button>
+                    <button class="filter-btn bg-brand-card border border-brand-border text-gray-400 hover:text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-all" data-filter="next">Next.js</button>
+                    <button class="filter-btn bg-brand-card border border-brand-border text-gray-400 hover:text-white px-5 py-2.5 rounded-lg text-xs font-semibold transition-all" data-filter="uiux">UI/UX</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <div class="project-item next react bg-brand-card border border-brand-border rounded-2xl overflow-hidden group hover:border-brand-orange/60 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative overflow-hidden h-64 bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" 
+                                 alt="TaskFlow Dashboard" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button onclick="openProjectModal('TaskFlow', 'Project management dashboard built with Next.js, TypeScript, and Tailwind CSS. Features task drag-and-drop, real-time sync, and team analytics.', 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80', ['Next.js', 'TypeScript', 'Tailwind CSS'])" class="bg-brand-orange text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-glow">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold text-white group-hover:text-brand-orange transition-colors">TaskFlow</h3>
+                                <a href="#" class="text-gray-400 hover:text-brand-orange"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Project management dashboard built with Next.js, TypeScript and Tailwind CSS.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex flex-wrap gap-2">
+                        <span class="bg-brand-bg border border-brand-border text-brand-orange text-xs px-2.5 py-1 rounded-md font-mono">Next.js</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">TypeScript</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">Tailwind</span>
+                    </div>
+                </div>
+
+                <div class="project-item react uiux bg-brand-card border border-brand-border rounded-2xl overflow-hidden group hover:border-brand-orange/60 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative overflow-hidden h-64 bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Wanderlust Travel Platform" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button onclick="openProjectModal('Wanderlust', 'Travel platform UI built with React, Tailwind CSS and Framer Motion. Smooth page transitions, destination booking flows, and map integration.', 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80', ['React', 'Tailwind CSS', 'Framer Motion'])" class="bg-brand-orange text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-glow">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold text-white group-hover:text-brand-orange transition-colors">Wanderlust</h3>
+                                <a href="#" class="text-gray-400 hover:text-brand-orange"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Travel platform UI built with React, Tailwind CSS and Framer Motion.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex flex-wrap gap-2">
+                        <span class="bg-brand-bg border border-brand-border text-brand-orange text-xs px-2.5 py-1 rounded-md font-mono">React</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">Tailwind</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">Framer Motion</span>
+                    </div>
+                </div>
+
+                <div class="project-item react next bg-brand-card border border-brand-border rounded-2xl overflow-hidden group hover:border-brand-orange/60 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="relative overflow-hidden h-64 bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" 
+                                 alt="FinTrack Dashboard" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-brand-bg/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button onclick="openProjectModal('FinTrack', 'Personal finance dashboard built with React, Recharts and Tailwind CSS. Features interactive budget tracking, expense categorization, and report exports.', 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80', ['React', 'Recharts', 'Tailwind CSS'])" class="bg-brand-orange text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-glow">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold text-white group-hover:text-brand-orange transition-colors">FinTrack</h3>
+                                <a href="#" class="text-gray-400 hover:text-brand-orange"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Personal finance dashboard built with React, Recharts and Tailwind CSS.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0 flex flex-wrap gap-2">
+                        <span class="bg-brand-bg border border-brand-border text-brand-orange text-xs px-2.5 py-1 rounded-md font-mono">React</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">Recharts</span>
+                        <span class="bg-brand-bg border border-brand-border text-gray-300 text-xs px-2.5 py-1 rounded-md font-mono">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS BAR -->
+        <section class="py-14 bg-brand-card/40 border-y border-brand-border/60 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="w-full">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="flex items-center gap-4 justify-center md:justify-start">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-3xl">
+                            <i class="fa-regular fa-smile"></i>
+                        </div>
+                        <div>
+                            <div class="text-3xl sm:text-4xl font-extrabold text-white">50+</div>
+                            <div class="text-xs sm:text-sm text-gray-400 font-medium">Happy Clients</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 justify-center md:justify-start">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-3xl">
+                            <i class="fa-solid fa-code-fork"></i>
+                        </div>
+                        <div>
+                            <div class="text-3xl sm:text-4xl font-extrabold text-white">80+</div>
+                            <div class="text-xs sm:text-sm text-gray-400 font-medium">Projects Completed</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 justify-center md:justify-start">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-3xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <div>
+                            <div class="text-3xl sm:text-4xl font-extrabold text-white">5+</div>
+                            <div class="text-xs sm:text-sm text-gray-400 font-medium">Years Experience</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 justify-center md:justify-start">
+                        <div class="w-16 h-16 rounded-2xl bg-brand-orange/10 border border-brand-orange/30 flex items-center justify-center text-brand-orange text-3xl">
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="text-3xl sm:text-4xl font-extrabold text-white">100%</div>
+                            <div class="text-xs sm:text-sm text-gray-400 font-medium">Client Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS & CONTACT SECTION -->
+        <section id="contact" class="py-20 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div>
+                        <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">TESTIMONIALS</span>
+                        <h2 class="text-3xl lg:text-4xl font-extrabold text-white mt-2 mb-8">What Clients Say</h2>
+
+                        <div class="relative bg-brand-card border border-brand-border p-8 rounded-2xl min-h-[260px] flex flex-col justify-between shadow-xl">
+                            <div class="text-brand-orange text-4xl mb-4">
+                                <i class="fa-solid fa-quote-left"></i>
+                            </div>
+
+                            <p id="testimonial-quote" class="text-gray-300 text-base italic leading-relaxed mb-6">
+                                "Bung Dev is an exceptional developer. He delivers clean, maintainable code and ensures every detail is perfect. Highly recommended!"
+                            </p>
+
+                            <div class="flex items-center justify-between pt-4 border-t border-brand-border/60">
+                                <div class="flex items-center gap-3">
+                                    <img id="testimonial-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" 
+                                         alt="Client Avatar" class="w-12 h-12 rounded-full object-cover border border-brand-orange">
+                                    <div>
+                                        <h4 id="testimonial-author" class="text-white font-bold text-sm">Priya Sharma</h4>
+                                        <span id="testimonial-role" class="text-xs text-gray-400">Product Manager, TaskFlow</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-2">
+                                    <button onclick="prevTestimonial()" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange transition-all">
+                                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                                    </button>
+                                    <button onclick="nextTestimonial()" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border flex items-center justify-center text-gray-400 hover:text-brand-orange transition-all">
+                                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-col gap-3">
+                        <div class="flex items-center gap-3 text-base text-gray-300">
+                            <i class="fa-solid fa-envelope text-brand-orange w-5"></i>
+                            <span>hello@bungdev.com</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-base text-gray-300">
+                            <i class="fa-solid fa-phone text-brand-orange w-5"></i>
+                            <span>+62 812-3456-7890</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-base text-gray-300">
+                            <i class="fa-solid fa-location-dot text-brand-orange w-5"></i>
+                            <span>Timika, Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 bg-brand-card border border-brand-border p-8 sm:p-10 rounded-2xl shadow-xl">
+                    <span class="text-brand-orange font-semibold tracking-widest text-xs uppercase">LET'S WORK TOGETHER</span>
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-white mt-1 mb-2">Get In Touch</h2>
+                    <p class="text-gray-400 text-base mb-8">
+                        Have a project in mind or just want to say hello? Feel free to reach out.
+                    </p>
+
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="flex flex-col gap-5">
+                        <div>
+                            <input type="text" id="contact-name" required placeholder="Your Name" 
+                                   class="w-full bg-brand-input border border-brand-border focus:border-brand-orange rounded-xl px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <input type="email" id="contact-email" required placeholder="Your Email" 
+                                   class="w-full bg-brand-input border border-brand-border focus:border-brand-orange rounded-xl px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <textarea id="contact-message" rows="4" required placeholder="Your Message" 
+                                      class="w-full bg-brand-input border border-brand-border focus:border-brand-orange rounded-xl px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none transition-all resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="bg-brand-orange hover:bg-brand-darkOrange text-white font-semibold py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-glow hover:shadow-glow-lg transition-all text-base">
+                            SEND MESSAGE <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-card/80 border-t border-brand-border py-12 w-full px-6 sm:px-10 md:px-16 xl:px-24">
+        <div class="w-full">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+                <div class="md:col-span-5 flex flex-col gap-4">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center text-white font-bold text-lg">
+                            B
+                        </div>
+                        <span class="text-lg font-bold text-white">
+                            BUNG <span class="text-brand-orange">DEV</span>
+                        </span>
+                    </a>
+                    <p class="text-gray-400 text-sm sm:text-base max-w-md leading-relaxed">
+                        Building the web, one pixel at a time. Available for freelance opportunities and full-time roles.
+                    </p>
+                </div>
+
+                <div class="md:col-span-3 flex flex-col gap-3">
+                    <span class="text-xs uppercase tracking-wider text-white font-bold mb-1">Quick Links</span>
+                    <a href="#home" class="text-gray-400 hover:text-brand-orange text-sm sm:text-base transition-colors">Home</a>
+                    <a href="#about" class="text-gray-400 hover:text-brand-orange text-sm sm:text-base transition-colors">About</a>
+                    <a href="#services" class="text-gray-400 hover:text-brand-orange text-sm sm:text-base transition-colors">Services</a>
+                    <a href="#projects" class="text-gray-400 hover:text-brand-orange text-sm sm:text-base transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-400 hover:text-brand-orange text-sm sm:text-base transition-colors">Contact</a>
+                </div>
+
+                <div class="md:col-span-4 flex flex-col gap-3">
+                    <span class="text-xs uppercase tracking-wider text-white font-bold mb-1">Newsletter</span>
+                    <p class="text-gray-400 text-sm sm:text-base">Subscribe to get updates on my latest projects and tech articles.</p>
+                    
+                    <form onsubmit="handleNewsletterSubmit(event)" class="flex gap-2">
+                        <input type="email" id="newsletter-email" required placeholder="Enter your email" 
+                               class="bg-brand-input border border-brand-border focus:border-brand-orange rounded-lg px-3 py-2.5 text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none flex-grow">
+                        <button type="submit" class="bg-brand-orange text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-darkOrange transition-all">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-brand-border/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs sm:text-sm text-gray-500 gap-4">
+                <p>&copy; 2026 Bung Dev. All rights reserved.</p>
+                <p>Made with <i class="fa-solid fa-heart text-brand-orange mx-1"></i> and lots of coffee.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PROJECT PREVIEW MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-border w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl transform transition-all">
+            <div class="relative h-72 bg-slate-900">
+                <img id="modal-img" src="" alt="Project Image" class="w-full h-full object-cover">
+                <button onclick="closeProjectModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-brand-bg/80 text-white flex items-center justify-center hover:bg-brand-orange transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8">
+                <h3 id="modal-title" class="text-2xl sm:text-3xl font-bold text-white mb-3"></h3>
+                <p id="modal-desc" class="text-gray-300 text-base mb-6 leading-relaxed"></p>
+                <div class="flex items-center justify-between pt-4 border-t border-brand-border">
+                    <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+                    <button onclick="closeProjectModal()" class="bg-brand-orange text-white px-6 py-2.5 rounded-lg text-sm font-semibold">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.className = 'fa-solid fa-bars text-2xl';
+            } else {
+                menuIcon.className = 'fa-solid fa-xmark text-2xl';
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.className = 'fa-solid fa-bars text-2xl';
+            });
+        });
+
+        const phrases = ['FRONTEND DEVELOPER |', 'UI/UX SPECIALIST |', 'NEXT.JS ENGINEER |'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const typingTextEl = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+
+            if (isDeleting) {
+                typingTextEl.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingTextEl.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 1800);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(typeEffect, 400);
+            } else {
+                setTimeout(typeEffect, isDeleting ? 50 : typingSpeed);
+            }
+        }
+
+        window.onload = function() {
+            typeEffect();
+        };
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectItems = document.querySelectorAll('.project-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-orange', 'text-white');
+                    b.classList.add('bg-brand-card', 'border', 'border-brand-border', 'text-gray-400');
+                });
+                btn.classList.add('active', 'bg-brand-orange', 'text-white');
+                btn.classList.remove('bg-brand-card', 'border', 'border-brand-border', 'text-gray-400');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectItems.forEach(item => {
+                    if (filter === 'all' || item.classList.contains(filter)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        const testimonials = [
+            {
+                quote: `"Bung Dev is an exceptional developer. He delivers clean, maintainable code and ensures every detail is perfect. Highly recommended!"`,
+                author: "Priya Sharma",
+                role: "Product Manager, TaskFlow",
+                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+            },
+            {
+                quote: `"Working with Bung Dev was seamless. He transformed our complex Figma design into a lightning-fast web experience ahead of schedule."`,
+                author: "David Miller",
+                role: "Founder, Wanderlust Travels",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+            },
+            {
+                quote: `"Top tier frontend engineer! Great communication, clean UI architecture, and outstanding optimization work."`,
+                author: "Sarah Chen",
+                role: "CTO, FinTrack Inc.",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+            }
+        ];
+
+        let currentTestimonialIndex = 0;
+
+        function updateTestimonial() {
+            const data = testimonials[currentTestimonialIndex];
+            document.getElementById('testimonial-quote').textContent = data.quote;
+            document.getElementById('testimonial-author').textContent = data.author;
+            document.getElementById('testimonial-role').textContent = data.role;
+            document.getElementById('testimonial-avatar').src = data.avatar;
+        }
+
+        function nextTestimonial() {
+            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+            updateTestimonial();
+        }
+
+        function prevTestimonial() {
+            currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonials.length) % testimonials.length;
+            updateTestimonial();
+        }
+
+        function openProjectModal(title, desc, img, tags) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').textContent = desc;
+            document.getElementById('modal-img').src = img;
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = '';
+            tags.forEach(tag => {
+                const badge = document.createElement('span');
+                badge.className = 'bg-brand-bg border border-brand-border text-brand-orange text-xs px-2.5 py-1 rounded-md font-mono';
+                badge.textContent = tag;
+                tagsContainer.appendChild(badge);
+            });
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto bg-brand-card border border-brand-orange text-white px-5 py-3.5 rounded-xl shadow-glow flex items-center gap-3 transform translate-y-4 opacity-0 transition-all duration-300`;
+            
+            toast.innerHTML = `
+                <i class="fa-solid fa-circle-check text-brand-orange text-lg"></i>
+                <span class="text-sm font-medium">${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            showToast(`Thank you, ${name}! Your message has been sent successfully.`);
+            document.getElementById('contact-form').reset();
+        }
+
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            showToast('Thank you for subscribing to the newsletter!');
+            document.getElementById('newsletter-email').value = '';
+        }
+
+        function downloadResume() {
+            showToast('Downloading Bung Dev Resume...');
+        }
+    </script>
+</body>
+</html>
